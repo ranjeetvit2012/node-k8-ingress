@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: node-bun
+  template:
+    metadata:
+      labels:
+        app: node-bun
+    spec:
+      containers:
+        - name: node-bun-app
+          image: ranjeetvit/node-bun-app:2
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  type: ClusterIP
+  selector:
+    app: node-bun
+  ports:
+    - port: 80
+      targetPort: 80
